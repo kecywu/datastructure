@@ -50,6 +50,8 @@ def build_tree(n,parents):
 #adding children's level to height/depth stack), and comparing most recently added height stack value 
 #to current maxheight.
 
+#deque works too
+
 def compute_height(tree,root):
 
     if not tree:
@@ -63,16 +65,16 @@ def compute_height(tree,root):
         node = stack.pop()  # stores current node that you are on
         depth = height.pop() # stores current level
         
+        maxheight = max(maxheight,depth)
+        
         if len(tree[node]) > 0:
             depth += 1
             for i in range(len(tree[node])):
                 stack.append(tree[node][i])
                 height.append(depth)
-                print(stack)
-                print(height)
+#                print(stack)
+#                print(height)
         
-    maxheight = height.pop()
-
     return maxheight
 
 def main():
