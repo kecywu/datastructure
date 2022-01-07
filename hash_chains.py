@@ -18,6 +18,12 @@ class QueryProcessor:
         self.bucket_count = bucket_count
         # store all strings in one list
         self.elems = []
+        
+        # store m lists in a dictionary
+        self.chains = dict()
+        for i in range(bucket_count):
+            self.chains[i] = []
+
 
     def _hash_func(self, s):
         ans = 0
@@ -49,14 +55,38 @@ class QueryProcessor:
             elif query.type == 'add':
                 if ind == -1:
                     self.elems.append(query.s)
-            else:
+            else: # delete 
                 if ind != -1:
                     self.elems.pop(ind)
+
+# faster implementation with m lists
+    def process_query_fast(self,query):
+        if query.type == "check":
+            if not self.chains[query.ind]:
+                print()
+            else:
+                self.write_chain(cur for cur in reversed(self.chains[query.ind]))
+        
+        else:
+            index = self._hash_func(query.s)
+            try:
+                ind = self.chains[index].index(query.s)
+            except ValueError:
+                ind = -1
+            
+            if query.type == 'find':
+                self.write_search_result(ind != -1)
+            elif query.type == 'add':
+                if ind == -1:
+                    self.chains[index].append(query.s)
+            else:
+                if ind != -1:
+                    self.chains[index].pop(ind)
 
     def process_queries(self):
         n = int(input())
         for i in range(n):
-            self.process_query(self.read_query())
+            self.process_query_fast(self.read_query())
 
 if __name__ == '__main__':
     bucket_count = int(input())
