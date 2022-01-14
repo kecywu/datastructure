@@ -2,7 +2,7 @@
 
 import sys, threading
 sys.setrecursionlimit(10**7) # max depth of recursion
-threading.stack_size(2**32)  # new thread will get stack of such size
+threading.stack_size(2**27)  # new thread will get stack of such size
 #import resourceresource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
 
 
